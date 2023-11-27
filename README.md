@@ -13,28 +13,28 @@
 
 （5） ESP32集成一键下载电路，使用CH340K串口芯片，使用typec接口与电脑进行通讯和下载程序
 
-###![概念图](https://image.lceda.cn/pullimage/8I11ZmwmBoUxHfqfm31iCeVXagbhuOlryoZlJpcW.jpeg)
+### ![概念图](https://image.lceda.cn/pullimage/8I11ZmwmBoUxHfqfm31iCeVXagbhuOlryoZlJpcW.jpeg)
 
 
-##软件部分
-####电机驱动采用SimpleFOC算法实现，电机运行在扭矩模式
+## 软件部分
+#### 电机驱动采用SimpleFOC算法实现，电机运行在扭矩模式
 ```
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   motor.torque_controller = TorqueControlType::voltage;
   motor.controller = MotionControlType::torque;
 ```
-####主控与电机驱动使用串口通讯，给定目标值并读取速度和角度值
+#### 主控与电机驱动使用串口通讯，给定目标值并读取速度和角度值
 ```
   command.add('T', doTarget, "target voltage");
   command.add('S', sendvel,(char *)"target");     //接收电机的运动指令
   command.add('A', send_angle,(char *)"target");  //接收电机的运动指令
 ```
-####电机第一次初始化motor.initFOC();将函数中参数删除，等待电机上电后串口输出电机转向和偏差角度后填入，下次上电跳过电机自检。
+#### 电机第一次初始化motor.initFOC();将函数中参数删除，等待电机上电后串口输出电机转向和偏差角度后填入，下次上电跳过电机自检。
 ```  
 motor.init();
 motor.initFOC(5.07,CCW);
 ```
-####主控运行ESP32 RTOS，创建两个任务，串口控制电机和读取电机角度信息
+#### 主控运行ESP32 RTOS，创建两个任务，串口控制电机和读取电机角度信息
 ```
 xTaskCreateStaticPinnedToCore(task_control,"task_control", 4096, NULL, 2, task_control_stack, &task_control_task_buffer, TASK_RUNNING_CORE_0);
 
@@ -46,7 +46,7 @@ xTaskCreateStaticPinnedToCore(task_motor_move, "task_motor_move", 4096, NULL, 7,
 
 
 
-####读取轮速信息，MPU6050信息，进行PID运算
+#### 读取轮速信息，MPU6050信息，进行PID运算
 ```
 void task_control(void *pvParameters)
 {
@@ -75,7 +75,7 @@ void task_control(void *pvParameters)
     }
 }
 ```
-####PID参数调节
+#### PID参数调节
 ```
 PIDController pid_stb{.P = 0.635, .I = 0.15, .D = 0.005, .ramp = 100000, .limit = 6};
 PIDController pid_vel{.P = 0.6, .I = 0, .D = 0.01, .ramp = 10000, .limit = _PI / 4};
@@ -84,4 +84,4 @@ LowPassFilter lpf_pitch_cmd{.Tf = 0.07};
 LowPassFilter lpf_throttle{.Tf = 0.5};
 LowPassFilter lpf_steering{.Tf = 0.1};
 ```
-#####[项目Github参考链接](https://github.com/WeiYuXingHan/Test-Robot)
+##### [项目Github参考链接](https://github.com/WeiYuXingHan/Test-Robot)
