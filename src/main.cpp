@@ -12,7 +12,7 @@ MPU6050 mpu6050(Wire);              //MPU6050
 #define BLINKER_BLE                 //ESP32_BLE
 #include <Blinker.h>
 
-BlinkerJoystick JOY1("joy-abc");    //joystick
+BlinkerJoystick JOY1("joy-9a9");    //joystick
 BlinkerSlider RAN_CUR("ran-abc");   //slider
 BlinkerSlider RAN_CUR2("ran-abd");   //slider
 

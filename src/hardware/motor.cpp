@@ -8,6 +8,7 @@ void read_left_motor()
   Serial1.println("A");
   while(Serial1.available() == 0){}
   left_motor_angel = -Serial1.parseFloat();
+  // 读取并解析左侧电机的转角
   //Serial.print("left");
   //Serial.print(left_motor_angel);
   //Serial.print("    ");
@@ -15,6 +16,7 @@ void read_left_motor()
   Serial1.println("S");
   while(Serial1.available() == 0){}
   left_motor_speed = -Serial1.parseFloat();
+  // 读取并解析左侧电机的速度
   //Serial.println(left_motor_speed);
 }
 

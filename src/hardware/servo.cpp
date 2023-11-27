@@ -11,12 +11,12 @@ void ServoAnalogWrite(uint8_t channel, uint32_t value)
 
 void servo_init(void)
 {
-  // Setup timer and attach timer to a servo pin
+  // 设置定时器并将定时器连接到一个舵机引脚
   ledcSetup(SERVO1_CHANNEL_0, SERVO_BASE_FREQ, SERVO_TIMER_12_BIT);
   ledcAttachPin(SERVO1_PIN, SERVO1_CHANNEL_0);
   ledcSetup(SERVO0_CHANNEL_0, SERVO_BASE_FREQ, SERVO_TIMER_12_BIT);
   ledcAttachPin(SERVO2_PIN, SERVO0_CHANNEL_0);
-  // set the brightness on LEDC channel 0
+  // 在LEDC通道0上设置亮度
   ServoAnalogWrite(SERVO0_CHANNEL_0, 307+25);//102-514
   ServoAnalogWrite(SERVO1_CHANNEL_0, 307-25);//0 255
 }
